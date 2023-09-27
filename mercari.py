@@ -7,7 +7,7 @@ from hikari import Embed, Color
 
 async def check_mercari(bot: BotApp, alert: dict) -> None:
     res = requests.post(
-        f"https://zenmarket.jp/fr/mercari.aspx/getProducts?q={alert['name']}&sort=new&order=desc",
+        f"https://zenmarket.jp/en/mercari.aspx/getProducts?q={alert['name']}&sort=new&order=desc",
         json={"page": 1},
     )
 
@@ -24,7 +24,7 @@ async def check_mercari(bot: BotApp, alert: dict) -> None:
 
         if item["ItemCode"]:
             embed.url = (
-                "https://zenmarket.jp/fr/mercariproduct.aspx?itemCode="
+                "https://zenmarket.jp/en/mercariproduct.aspx?itemCode="
                 + item["ItemCode"]
             )
 
@@ -34,7 +34,7 @@ async def check_mercari(bot: BotApp, alert: dict) -> None:
         if item["PriceTextControl"]:
             try:
                 dom = parseString(item["PriceTextControl"])
-                price = dom.getElementsByTagName("span")[0].getAttribute("data-eur")
+                price = dom.getElementsByTagName("span")[0].getAttribute("data-jpy")
                 embed.add_field("Price", price)
             except:
                 pass

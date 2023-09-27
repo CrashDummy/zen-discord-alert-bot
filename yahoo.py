@@ -10,7 +10,7 @@ async def check_yahoo_auctions(
     bot: BotApp, translator: EasyGoogleTranslate, alert: dict
 ) -> None:
     res = requests.post(
-        f"https://zenmarket.jp/fr/yahoo.aspx/getProducts?q={alert['name']}&sort=new&order=desc",
+        f"https://zenmarket.jp/en/yahoo.aspx/getProducts?q={alert['name']}&sort=new&order=desc",
         json={"page": 1},
     )
 
@@ -27,7 +27,7 @@ async def check_yahoo_auctions(
 
         if item["AuctionID"]:
             embed.url = (
-                "https://zenmarket.jp/fr/auction.aspx?itemCode=" + item["AuctionID"]
+                "https://zenmarket.jp/en/auction.aspx?itemCode=" + item["AuctionID"]
             )
 
         if item["Thumbnail"]:
@@ -35,12 +35,12 @@ async def check_yahoo_auctions(
 
         if item["PriceBidOrBuyTextControl"]:
             dom = parseString(item["PriceBidOrBuyTextControl"])
-            price = dom.getElementsByTagName("span")[0].getAttribute("data-eur")
+            price = dom.getElementsByTagName("span")[0].getAttribute("data-jpy")
             embed.add_field("Instant price", price)
 
         if item["PriceTextControl"]:
             dom = parseString(item["PriceTextControl"])
-            price = dom.getElementsByTagName("span")[0].getAttribute("data-eur")
+            price = dom.getElementsByTagName("span")[0].getAttribute("data-jpy")
             embed.add_field("Bid price", price)
 
         embed.set_footer(f"Source: Yahoo Auction — #{item['AuctionID']}")
